@@ -1,0 +1,1564 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ZIRVEX ALIM SATIM — Oyun Hesabı Pazaryeri</title>
+  
+  <!-- Tailwind CSS & Lucide Icons & Google Fonts -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            orbitron: ['Orbitron', 'sans-serif'],
+            rajdhani: ['Rajdhani', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            cyber: {
+              black: '#050508',
+              card: '#0c0d14',
+              blue: '#00f0ff',
+              purple: '#7000ff',
+              pink: '#ff007f',
+              silver: '#e2e8f0',
+              border: 'rgba(0, 240, 255, 0.18)'
+            }
+          },
+          boxShadow: {
+            'neon-blue': '0 0 20px rgba(0, 240, 255, 0.35)',
+            'neon-purple': '0 0 20px rgba(112, 0, 255, 0.4)',
+            'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.5)'
+          },
+          keyframes: {
+            marquee: {
+              '0%': { transform: 'translateX(0%)' },
+              '100%': { transform: 'translateX(-50%)' }
+            }
+          },
+          animation: {
+            marquee: 'marquee 30s linear infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #050508;
+      color: #e2e8f0;
+      overflow-x: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    
+    .glass-panel {
+      background: rgba(12, 13, 20, 0.85);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(0, 240, 255, 0.15);
+    }
+    
+    .glass-panel-hover:hover {
+      border-color: rgba(0, 240, 255, 0.5);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .carousel-container:hover .animate-marquee {
+      animation-play-state: paused;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #050508;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1a1b26;
+      border-radius: 4px;
+      border: 1px solid rgba(0, 240, 255, 0.2);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col selection:bg-cyber-blue selection:text-black">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gradient-to-r from-cyber-purple via-cyber-blue to-cyber-purple text-black font-semibold text-xs py-1.5 px-4 text-center uppercase font-orbitron flex items-center justify-center gap-2 shadow-lg">
+    <i data-lucide="zap" class="w-4 h-4 animate-bounce"></i>
+    <span>ZIRVEX OYUN HESABI PAZARYERİ — HIZLI, GÜVENLİ & 7/24 WHATSAPP TESLİMATI!</span>
+    <i data-lucide="zap" class="w-4 h-4 animate-bounce"></i>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="sticky top-0 z-40 glass-panel border-b border-cyber-blue/20 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      
+      <!-- LOGO -->
+      <a href="#" onclick="renderApp()" class="flex items-center gap-3 group">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyber-blue to-cyber-purple p-0.5 shadow-neon-blue group-hover:scale-105 transition-transform">
+          <div class="w-full h-full bg-cyber-black rounded-[10px] flex items-center justify-center">
+            <span class="font-orbitron font-black text-xl text-cyber-blue group-hover:text-white transition-colors">Z</span>
+          </div>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-orbitron font-black text-xl lg:text-2xl tracking-wider text-white flex items-center gap-1">
+            ZIRVEX <span class="text-xs px-1.5 py-0.5 rounded bg-cyber-blue/20 text-cyber-blue border border-cyber-blue/40 font-rajdhani">PRO</span>
+          </span>
+          <span class="text-[10px] text-gray-400 font-rajdhani tracking-widest uppercase -mt-1">ALIM SATIM PAZARYERİ</span>
+        </div>
+      </a>
+
+      <!-- SEARCH BAR (DESKTOP) -->
+      <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
+        <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+        <input type="text" id="searchInputDesktop" placeholder="Oyun, hesap, skin veya rank ara..." 
+               class="w-full bg-cyber-black/90 text-sm text-white placeholder-gray-500 rounded-xl pl-10 pr-4 py-2 border border-cyber-blue/20 focus:outline-none focus:border-cyber-blue focus:ring-1 focus:ring-cyber-blue transition-all"
+               onkeyup="handleSearch(this.value)">
+      </div>
+
+      <!-- RIGHT ACTIONS -->
+      <div class="flex items-center gap-3">
+        <a href="https://wa.me/905050619393" target="_blank" 
+           class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-green-600/20 text-green-400 border border-green-500/30 hover:bg-green-600 hover:text-white transition-all text-xs font-semibold">
+          <i data-lucide="phone-call" class="w-4 h-4"></i>
+          <span>+90 505 061 93 93</span>
+        </a>
+
+        <button onclick="toggleMenu()" class="p-2.5 rounded-xl glass-panel text-white hover:text-cyber-blue hover:border-cyber-blue transition-all">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- SEARCH BAR (MOBILE) -->
+    <div class="mt-3 md:hidden relative">
+      <i data-lucide="search" class="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"></i>
+      <input type="text" id="searchInputMobile" placeholder="Hesap veya ilan ara..." 
+             class="w-full bg-cyber-black text-sm text-white placeholder-gray-500 rounded-xl pl-10 pr-4 py-2 border border-cyber-blue/20 focus:outline-none focus:border-cyber-blue"
+             onkeyup="handleSearch(this.value)">
+    </div>
+  </header>
+
+  <!-- DRAWER / MENU OVERLAY -->
+  <div id="drawerOverlay" onclick="toggleMenu()" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <aside id="drawerMenu" class="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-cyber-black border-l border-cyber-blue/20 z-50 transform translate-x-full transition-transform duration-300 p-6 flex flex-col justify-between overflow-y-auto">
+    <div>
+      <div class="flex items-center justify-between pb-6 border-b border-gray-800">
+        <span class="font-orbitron font-bold text-lg text-cyber-blue flex items-center gap-2">
+          <i data-lucide="compass" class="w-5 h-5"></i> MENÜ
+        </span>
+        <button onclick="toggleMenu()" class="text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <nav class="mt-6 space-y-2 font-rajdhani text-lg font-semibold">
+        <a href="#" onclick="toggleMenu(); filterByGame('ALL');" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-300 hover:text-cyber-blue hover:bg-cyber-blue/10 transition-all">
+          <i data-lucide="home" class="w-5 h-5 text-cyber-blue"></i> Ana Sayfa
+        </a>
+        <a href="#listingsSection" onclick="toggleMenu();" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-300 hover:text-cyber-blue hover:bg-cyber-blue/10 transition-all">
+          <i data-lucide="grid" class="w-5 h-5 text-cyber-purple"></i> Tüm İlanlar
+        </a>
+        <a href="#carouselSection" onclick="toggleMenu();" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-300 hover:text-cyber-blue hover:bg-cyber-blue/10 transition-all">
+          <i data-lucide="gamepad-2" class="w-5 h-5 text-cyber-blue"></i> Oyun Kategorileri
+        </a>
+        <a href="#" onclick="toggleMenu(); filterDiscountedOnly();" class="flex items-center gap-3 px-4 py-2.5 rounded-xl text-gray-300 hover:text-cyber-blue hover:bg-cyber-blue/10 transition-all">
+          <i data-lucide="percent" class="w-5 h-5 text-pink-500"></i> İndirimli Hesaplar
+        </a>
+        
+        <hr class="border-gray-800 my-4">
+
+        <button onclick="openLegalModal('Hakkımızda')" class="w-full text-left flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <i data-lucide="info" class="w-4 h-4"></i> Hakkımızda
+        </button>
+        <button onclick="openLegalModal('İletişim')" class="w-full text-left flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <i data-lucide="mail" class="w-4 h-4"></i> İletişim & Destek
+        </button>
+        <button onclick="openLegalModal('SSS')" class="w-full text-left flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <i data-lucide="help-circle" class="w-4 h-4"></i> Sık Sorulan Sorular
+        </button>
+        <button onclick="openLegalModal('KVKK')" class="w-full text-left flex items-center gap-3 px-4 py-2 rounded-xl text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">
+          <i data-lucide="file-text" class="w-4 h-4"></i> KVKK & Yasal Metinler
+        </button>
+      </nav>
+    </div>
+
+    <div class="pt-6 border-t border-gray-800 space-y-3">
+      <a href="https://www.instagram.com/zirvexalimsatim/" target="_blank" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-pink-600/20 text-pink-400 border border-pink-500/30 hover:bg-pink-600 hover:text-white transition-all text-sm font-semibold">
+        <i data-lucide="instagram" class="w-4 h-4"></i> @zirvexalimsatim
+      </a>
+      <a href="https://wa.me/905050619393" target="_blank" class="flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-green-600/20 text-green-400 border border-green-500/30 hover:bg-green-600 hover:text-white transition-all text-sm font-semibold">
+        <i data-lucide="message-square" class="w-4 h-4"></i> WhatsApp Destek
+      </a>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-12">
+
+    <!-- HERO BANNER -->
+    <section class="relative rounded-3xl overflow-hidden glass-panel border border-cyber-blue/30 p-6 md:p-12 flex flex-col md:flex-row items-center justify-between gap-8 shadow-neon-blue">
+      <div class="absolute inset-0 bg-[radial-gradient(#00f0ff_1px,transparent_1px)] [background-size:24px_24px] opacity-10 pointer-events-none"></div>
+      <div class="absolute -right-20 -top-20 w-80 h-80 bg-cyber-purple/30 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-cyber-blue/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-xl text-center md:text-left space-y-4">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyber-blue/10 border border-cyber-blue/30 text-cyber-blue text-xs font-orbitron tracking-wide">
+          <span class="w-2 h-2 rounded-full bg-cyber-blue animate-ping"></span>
+          TÜRKİYE'NİN LİDER OYUN HESABI PAZARYERİ
+        </div>
+        <h1 class="font-orbitron text-3xl md:text-5xl font-black text-white leading-tight uppercase tracking-tight">
+          HESABINI SEÇ, <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyber-blue via-purple-400 to-cyber-purple">ZİRVEYE TIRMAN!</span>
+        </h1>
+        <p class="text-gray-300 text-sm md:text-base">
+          Valorant, PUBG Mobile, GTA V, LoL ve 20+ oyunda %100 güvenli, anında teslimatlı profesyonel oyun hesapları ZIRVEX güvencesiyle sizleri bekliyor.
+        </p>
+        
+        <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
+          <a href="#listingsSection" class="px-6 py-3 rounded-xl bg-gradient-to-r from-cyber-blue to-cyber-purple text-black font-orbitron font-bold text-sm tracking-wider shadow-neon-blue hover:opacity-90 hover:scale-105 transition-all">
+            İLANLARI İNCELE
+          </a>
+          <a href="https://wa.me/905050619393?text=Merhaba%20ZirveX,%20hesab%C4%B1m%C4%B1%20satmak%20istiyorum." target="_blank" class="px-6 py-3 rounded-xl glass-panel border border-cyber-blue/40 text-white font-orbitron font-semibold text-sm hover:border-cyber-blue hover:bg-cyber-blue/10 transition-all flex items-center gap-2">
+            <i data-lucide="upload" class="w-4 h-4 text-cyber-blue"></i> HESABINI SAT
+          </a>
+        </div>
+      </div>
+
+      <!-- BADGES GRAPHIC -->
+      <div class="relative z-10 grid grid-cols-2 gap-4 w-full md:w-auto">
+        <div class="glass-panel p-4 rounded-2xl border border-cyber-blue/20 text-center">
+          <div class="font-orbitron font-bold text-2xl text-cyber-blue">5.000+</div>
+          <div class="text-xs text-gray-400 mt-1 font-rajdhani uppercase">Başarılı Teslimat</div>
+        </div>
+        <div class="glass-panel p-4 rounded-2xl border border-cyber-purple/20 text-center">
+          <div class="font-orbitron font-bold text-2xl text-cyber-purple">%100</div>
+          <div class="text-xs text-gray-400 mt-1 font-rajdhani uppercase">Güvenli Alışveriş</div>
+        </div>
+        <div class="glass-panel p-4 rounded-2xl border border-cyber-purple/20 text-center">
+          <div class="font-orbitron font-bold text-2xl text-cyber-purple">7/24</div>
+          <div class="text-xs text-gray-400 mt-1 font-rajdhani uppercase">Canlı WhatsApp</div>
+        </div>
+        <div class="glass-panel p-4 rounded-2xl border border-cyber-blue/20 text-center">
+          <div class="font-orbitron font-bold text-2xl text-cyber-blue">Anında</div>
+          <div class="text-xs text-gray-400 mt-1 font-rajdhani uppercase">Hesap Teslimi</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOVING GAME CAROUSEL -->
+    <section id="carouselSection" class="space-y-4">
+      <div class="flex items-center justify-between">
+        <h2 class="font-orbitron font-bold text-xl md:text-2xl text-white flex items-center gap-2">
+          <i data-lucide="gamepad-2" class="w-6 h-6 text-cyber-blue"></i> OYUN KATALOĞU
+        </h2>
+        <span class="text-xs text-gray-400 font-rajdhani uppercase tracking-wider">Kategoriye Tıkla & Filtrele</span>
+      </div>
+
+      <div class="carousel-container overflow-hidden relative rounded-2xl glass-panel p-4 border border-cyber-blue/10">
+        <div id="gamesMarquee" class="flex gap-4 animate-marquee whitespace-nowrap w-max">
+          <!-- Populated via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- LISTINGS FILTER SECTION -->
+    <section id="listingsSection" class="space-y-6">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-panel p-4 rounded-2xl border border-cyber-blue/20">
+        <div>
+          <h2 class="font-orbitron font-bold text-xl text-white flex items-center gap-2">
+            <i data-lucide="layers" class="w-5 h-5 text-cyber-purple"></i> VİTRİN HESAPLARI
+          </h2>
+          <p id="activeCategoryTag" class="text-xs text-cyber-blue font-rajdhani font-semibold mt-0.5">Tüm Oyunlar Gösteriliyor</p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <select id="filterGameSelect" onchange="applyFilters()" class="bg-cyber-black text-xs text-white px-3 py-2 rounded-xl border border-cyber-blue/30 focus:outline-none focus:border-cyber-blue">
+            <option value="ALL">Tüm Oyunlar</option>
+          </select>
+
+          <select id="filterSortSelect" onchange="applyFilters()" class="bg-cyber-black text-xs text-white px-3 py-2 rounded-xl border border-cyber-blue/30 focus:outline-none focus:border-cyber-blue">
+            <option value="NEWEST">En Yeniler</option>
+            <option value="PRICE_LOW">Fiyat: Düşükten Yükseğe</option>
+            <option value="PRICE_HIGH">Fiyat: Yüksekten Düşüğe</option>
+            <option value="DISCOUNT">En Yüksek İndirim</option>
+          </select>
+
+          <button onclick="toggleDiscountOnlyFilter()" id="discountFilterBtn" class="px-3 py-2 rounded-xl border border-pink-500/30 text-pink-400 text-xs font-semibold hover:bg-pink-500/20 transition-all flex items-center gap-1">
+            <i data-lucide="percent" class="w-3.5 h-3.5"></i> İndirimdekiler
+          </button>
+        </div>
+      </div>
+
+      <!-- LISTINGS GRID -->
+      <div id="listingsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- JS Injected -->
+      </div>
+
+      <!-- EMPTY STATE -->
+      <div id="emptyListingsState" class="hidden text-center py-16 glass-panel rounded-2xl border border-gray-800">
+        <i data-lucide="search-x" class="w-12 h-12 text-gray-500 mx-auto mb-3"></i>
+        <h3 class="font-orbitron font-bold text-lg text-white">İlan Bulunamadı</h3>
+        <p class="text-sm text-gray-400 mt-1">Arama kriterlerinize uygun hesap bulunamadı.</p>
+        <button onclick="resetFilters()" class="mt-4 px-4 py-2 rounded-xl bg-cyber-blue/20 text-cyber-blue text-xs font-bold border border-cyber-blue/40">Filtreleri Temizle</button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="mt-20 border-t border-cyber-blue/20 glass-panel bg-cyber-black/90 py-12 px-4 lg:px-8 text-sm text-gray-400">
+    <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div class="space-y-3">
+        <div class="font-orbitron font-black text-xl text-white flex items-center gap-2">
+          ZIRVEX <span class="text-xs text-cyber-blue font-rajdhani">ALIM SATIM</span>
+        </div>
+        <p class="text-xs leading-relaxed text-gray-400">
+          ZirveX Alım Satım, Türkiye'nin lider dijital oyun hesabı ve e-spor pazaryeri platformudur. Anında ve güvenli teslimat garantisi.
+        </p>
+        <div class="text-xs text-cyber-blue font-mono pt-1">
+          WhatsApp: +90 505 061 93 93
+        </div>
+      </div>
+
+      <div>
+        <h4 class="font-orbitron font-bold text-white text-sm mb-3">HIZLI MENÜ</h4>
+        <ul class="space-y-2 text-xs">
+          <li><a href="#" onclick="filterByGame('ALL')" class="hover:text-cyber-blue transition-colors">Ana Sayfa</a></li>
+          <li><a href="#carouselSection" class="hover:text-cyber-blue transition-colors">Oyun Kategorileri</a></li>
+          <li><a href="#listingsSection" class="hover:text-cyber-blue transition-colors">Öne Çıkan İlanlar</a></li>
+          <li><a href="#" onclick="filterDiscountedOnly()" class="hover:text-cyber-blue transition-colors">Kampanyalı Hesaplar</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-orbitron font-bold text-white text-sm mb-3">YASAL & BİLGİ</h4>
+        <ul class="space-y-2 text-xs">
+          <li><button onclick="openLegalModal('Hakkımızda')" class="hover:text-cyber-blue transition-colors">Hakkımızda</button></li>
+          <li><button onclick="openLegalModal('KVKK')" class="hover:text-cyber-blue transition-colors">KVKK Aydınlatma Metni</button></li>
+          <li><button onclick="openLegalModal('Gizlilik')" class="hover:text-cyber-blue transition-colors">Gizlilik & Çerez Politikası</button></li>
+          <li><button onclick="openLegalModal('MesafeliSatıs')" class="hover:text-cyber-blue transition-colors">Satış ve Teslimat Koşulları</button></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="font-orbitron font-bold text-white text-sm mb-3">SOSYAL MEDYA & DESTEK</h4>
+        <div class="space-y-2">
+          <a href="https://www.instagram.com/zirvexalimsatim/" target="_blank" class="flex items-center gap-2 p-2 rounded-xl bg-pink-500/10 border border-pink-500/20 text-pink-400 text-xs hover:bg-pink-500/20 transition-all">
+            <i data-lucide="instagram" class="w-4 h-4"></i> Instagram (@zirvexalimsatim)
+          </a>
+          <a href="https://wa.me/905050619393" target="_blank" class="flex items-center gap-2 p-2 rounded-xl bg-green-500/10 border border-green-500/20 text-green-400 text-xs hover:bg-green-500/20 transition-all">
+            <i data-lucide="phone" class="w-4 h-4"></i> WhatsApp İletişim Hattı
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto mt-8 pt-6 border-t border-gray-800 text-center text-xs text-gray-500 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 ZIRVEX ALIM SATIM. Tüm Hakları Saklıdır.</p>
+      <p class="text-[11px]">Tasarım ve Güvenlik Altyapısı ZIRVEX Systems Tarafından Sağlanmaktadır.</p>
+    </div>
+  </footer>
+
+  <!-- FLOATING WHATSAPP BUTTON -->
+  <a href="https://wa.me/905050619393" target="_blank" title="WhatsApp Canlı Destek" 
+     class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-green-500 text-black flex items-center justify-center shadow-lg shadow-green-500/50 hover:scale-110 transition-transform animate-bounce">
+    <i data-lucide="message-circle" class="w-8 h-8 fill-current"></i>
+  </a>
+
+  <!-- ================= MODALS ================= -->
+
+  <!-- DETAIL MODAL -->
+  <div id="listingDetailModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-4xl glass-panel rounded-3xl border border-cyber-blue/30 overflow-hidden shadow-neon-blue my-8 max-h-[90vh] flex flex-col">
+      <div class="p-4 border-b border-gray-800 flex items-center justify-between bg-cyber-black/60">
+        <div class="flex items-center gap-2">
+          <span id="detailGameBadge" class="px-2.5 py-1 rounded-lg bg-cyber-blue/20 text-cyber-blue border border-cyber-blue/40 font-orbitron text-xs font-bold">GAME</span>
+          <span id="detailListingNo" class="text-xs text-gray-400 font-mono">İlan No: #000</span>
+        </div>
+        <button onclick="closeListingModal()" class="p-1.5 rounded-xl bg-gray-800 hover:bg-red-500/20 text-gray-400 hover:text-red-400 transition-all">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1">
+        <div id="detailCampaignBanner" class="hidden p-3 rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-cyber-blue text-white font-orbitron font-bold text-center text-sm shadow-neon-purple animate-pulse">
+          🔥 %<span id="detailDiscountRate">0</span> İNDİRİM FIRSATI — SINIRLI SÜRE!
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="space-y-3">
+            <div class="relative aspect-video rounded-2xl overflow-hidden border border-cyber-blue/20 bg-black">
+              <img id="detailMainImage" src="" alt="Listing" class="w-full h-full object-cover">
+              <div id="detailVideoContainer" class="hidden w-full h-full">
+                <iframe id="detailIframeVideo" class="w-full h-full" src="" frameborder="0" allowfullscreen></iframe>
+              </div>
+            </div>
+            
+            <div id="detailThumbnails" class="flex gap-2 overflow-x-auto pb-1">
+              <!-- JS Injected -->
+            </div>
+          </div>
+
+          <div class="space-y-4 flex flex-col justify-between">
+            <div class="space-y-3">
+              <h2 id="detailTitle" class="font-orbitron font-bold text-xl md:text-2xl text-white">İlan Başlığı</h2>
+              
+              <div class="flex items-baseline gap-3 p-3 rounded-2xl bg-cyber-black/80 border border-cyber-blue/20">
+                <span id="detailPrice" class="font-orbitron font-black text-2xl md:text-3xl text-cyber-blue">0 TL</span>
+                <span id="detailOldPrice" class="text-sm text-gray-500 line-through font-mono">0 TL</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="p-2.5 rounded-xl bg-cyber-black/40 border border-gray-800">
+                  <span class="text-gray-400 block text-[10px] uppercase font-rajdhani">Hesap Seviyesi</span>
+                  <span id="detailLevel" class="font-bold text-white">Lvl 100+</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-cyber-black/40 border border-gray-800">
+                  <span class="text-gray-400 block text-[10px] uppercase font-rajdhani">Rank / Derece</span>
+                  <span id="detailRank" class="font-bold text-cyber-purple">Immortal</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-cyber-black/40 border border-gray-800">
+                  <span class="text-gray-400 block text-[10px] uppercase font-rajdhani">Teslimat Süresi</span>
+                  <span class="font-bold text-green-400">Anında (5 Dk)</span>
+                </div>
+                <div class="p-2.5 rounded-xl bg-cyber-black/40 border border-gray-800">
+                  <span class="text-gray-400 block text-[10px] uppercase font-rajdhani">Güvence</span>
+                  <span class="font-bold text-cyber-blue">%100 Garanti</span>
+                </div>
+              </div>
+
+              <div>
+                <h4 class="text-xs font-orbitron font-bold text-gray-300 uppercase mb-1">Hesap Açıklaması</h4>
+                <p id="detailDescription" class="text-xs text-gray-300 leading-relaxed bg-cyber-black/40 p-3 rounded-xl border border-gray-800 whitespace-pre-line max-h-36 overflow-y-auto">
+                  Açıklama yükleniyor...
+                </p>
+              </div>
+            </div>
+
+            <a id="detailWhatsappBtn" href="#" target="_blank" 
+               class="mt-4 w-full py-3.5 rounded-2xl bg-gradient-to-r from-green-600 to-emerald-500 text-black font-orbitron font-black text-sm tracking-wide text-center shadow-lg shadow-green-500/20 flex items-center justify-center gap-2 transition-all">
+              <i data-lucide="message-square" class="w-5 h-5 fill-current"></i>
+              <span>WHATSAPP İLE SİPARİŞ ET</span>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL MODAL -->
+  <div id="legalModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="relative w-full max-w-2xl glass-panel rounded-3xl border border-cyber-blue/30 overflow-hidden shadow-neon-blue p-6 space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <h3 id="legalModalTitle" class="font-orbitron font-bold text-lg text-cyber-blue">Sayfa Başlığı</h3>
+        <button onclick="closeLegalModal()" class="text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+      <div id="legalModalContent" class="text-xs text-gray-300 leading-relaxed space-y-3 overflow-y-auto flex-1 pr-2">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECRET ADMIN LOGIN MODAL -->
+  <div id="adminLoginModal" class="fixed inset-0 bg-black/95 backdrop-blur-xl z-50 hidden flex items-center justify-center p-4">
+    <div class="relative w-full max-w-md glass-panel rounded-3xl border border-cyber-purple/40 p-8 space-y-6 shadow-neon-purple text-center">
+      
+      <div class="w-16 h-16 bg-cyber-purple/20 border border-cyber-purple rounded-2xl mx-auto flex items-center justify-center text-cyber-purple">
+        <i data-lucide="lock" class="w-8 h-8"></i>
+      </div>
+
+      <div>
+        <h2 class="font-orbitron font-black text-2xl text-white">YÖNETİM PANELİ</h2>
+        <p class="text-xs text-gray-400 mt-1 font-mono">Güvenli Yönetici Girişi</p>
+      </div>
+
+      <form onsubmit="handleAdminLogin(event)" class="space-y-4">
+        <div class="relative text-left">
+          <label class="text-[10px] text-gray-400 font-rajdhani uppercase block mb-1">Yönetici Şifresi</label>
+          <input type="password" id="adminPasswordInput" placeholder="••••••••••••" required
+                 class="w-full bg-cyber-black text-white text-sm px-4 py-3 rounded-xl border border-cyber-purple/30 focus:outline-none focus:border-cyber-purple">
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-cyber-purple to-cyber-blue text-black font-orbitron font-bold text-sm tracking-wider hover:opacity-90 transition-all shadow-neon-purple">
+          GİRİŞ YAP
+        </button>
+      </form>
+
+      <button onclick="closeAdminLoginModal()" class="text-xs text-gray-500 hover:text-gray-300 font-mono">
+        Ana Sayfaya Dön
+      </button>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD MODAL -->
+  <div id="adminDashboardModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-2 sm:p-6 overflow-y-auto">
+    <div class="relative w-full max-w-6xl glass-panel rounded-3xl border border-cyber-blue/40 overflow-hidden shadow-neon-blue my-auto max-h-[95vh] flex flex-col bg-cyber-black">
+      
+      <div class="p-4 bg-cyber-black/90 border-b border-cyber-blue/20 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <span class="px-3 py-1 rounded-lg bg-cyber-purple/20 text-cyber-purple border border-cyber-purple/40 font-orbitron text-xs font-bold">
+            ADMIN PANEL
+          </span>
+          <span class="text-xs text-gray-400 font-mono hidden sm:inline">URL: /%1AdminSistemi</span>
+        </div>
+
+        <div class="flex items-center gap-2 overflow-x-auto">
+          <button onclick="switchAdminTab('listings')" id="adminTabListingsBtn" class="px-3 py-1.5 rounded-xl text-xs font-bold font-orbitron bg-cyber-blue text-black">
+            İlan Yönetimi
+          </button>
+          <button onclick="switchAdminTab('campaigns')" id="adminTabCampaignsBtn" class="px-3 py-1.5 rounded-xl text-xs font-bold font-orbitron bg-cyber-black text-gray-300 border border-gray-800">
+            Kampanyalar
+          </button>
+          <button onclick="switchAdminTab('games')" id="adminTabGamesBtn" class="px-3 py-1.5 rounded-xl text-xs font-bold font-orbitron bg-cyber-black text-gray-300 border border-gray-800">
+            Kategoriler
+          </button>
+        </div>
+
+        <button onclick="logoutAdmin()" class="px-3 py-1.5 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 text-xs font-bold flex items-center gap-1 hover:bg-red-500 hover:text-white transition-all">
+          <i data-lucide="log-out" class="w-3.5 h-3.5"></i> Çıkış
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-1 space-y-6">
+
+        <!-- TAB 1: LISTINGS -->
+        <div id="adminTabListings" class="space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-800">
+            <h3 class="font-orbitron font-bold text-lg text-white">İlan Listesi ve Düzenleme</h3>
+            <button onclick="openListingFormModal()" class="px-4 py-2 rounded-xl bg-cyber-blue text-black font-orbitron font-bold text-xs flex items-center gap-2">
+              <i data-lucide="plus-circle" class="w-4 h-4"></i> YENİ İLAN EKLE
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-gray-800 text-gray-400 uppercase font-rajdhani">
+                  <th class="p-3">Görsel</th>
+                  <th class="p-3">İlan Başlığı / Oyun</th>
+                  <th class="p-3">Fiyat / İndirim</th>
+                  <th class="p-3">Durum</th>
+                  <th class="p-3 text-right">İşlemler</th>
+                </tr>
+              </thead>
+              <tbody id="adminListingsTableBody" class="divide-y divide-gray-800/50">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 2: CAMPAIGNS -->
+        <div id="adminTabCampaigns" class="hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-800">
+            <div>
+              <h3 class="font-orbitron font-bold text-lg text-white">Kampanya Yönetimi</h3>
+              <p class="text-xs text-gray-400">Oyunlara veya ilanlara özel yüzdelik indirimler uygulayın.</p>
+            </div>
+            <button onclick="openCampaignFormModal()" class="px-4 py-2 rounded-xl bg-cyber-purple text-white font-orbitron font-bold text-xs flex items-center gap-2">
+              <i data-lucide="tag" class="w-4 h-4"></i> YENİ KAMPANYA TANIMLA
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs border-collapse">
+              <thead>
+                <tr class="border-b border-gray-800 text-gray-400 uppercase font-rajdhani">
+                  <th class="p-3">Kampanya Başlığı</th>
+                  <th class="p-3">Hedef Oyun</th>
+                  <th class="p-3">İndirim Oranı</th>
+                  <th class="p-3">Durum</th>
+                  <th class="p-3 text-right">İşlem</th>
+                </tr>
+              </thead>
+              <tbody id="adminCampaignsTableBody" class="divide-y divide-gray-800/50">
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB 3: CATEGORIES -->
+        <div id="adminTabGames" class="hidden space-y-6">
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-gray-800">
+            <h3 class="font-orbitron font-bold text-lg text-white">Oyun Kategorileri</h3>
+            <button onclick="openGameFormModal()" class="px-4 py-2 rounded-xl bg-cyber-blue text-black font-orbitron font-bold text-xs flex items-center gap-2">
+              <i data-lucide="plus" class="w-4 h-4"></i> YENİ OYUN EKLE
+            </button>
+          </div>
+
+          <div id="adminGamesGrid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- LISTING FORM MODAL -->
+  <div id="listingFormModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+    <div class="relative w-full max-w-2xl glass-panel rounded-3xl border border-cyber-blue/40 p-6 space-y-4 my-auto max-h-[90vh] overflow-y-auto bg-cyber-black">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <h3 id="listingFormTitle" class="font-orbitron font-bold text-lg text-cyber-blue">Yeni İlan Ekle</h3>
+        <button onclick="closeListingFormModal()" class="text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveListing(event)" class="space-y-4 text-xs">
+        <input type="hidden" id="formListingId">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-gray-400 mb-1">Oyun Seçimi</label>
+            <select id="formListingGame" required class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue">
+            </select>
+          </div>
+          <div>
+            <label class="block text-gray-400 mb-1">İlan Başlığı</label>
+            <input type="text" id="formListingTitle" required placeholder="Örn: 150 Skinli Yağmacı Vandal Hesap" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-gray-400 mb-1">Satış Fiyatı (TL)</label>
+            <input type="number" id="formListingPrice" required placeholder="1250" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue">
+          </div>
+          <div>
+            <label class="block text-gray-400 mb-1">Eski Fiyat (İndirimsiz TL)</label>
+            <input type="number" id="formListingOldPrice" placeholder="1500" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue">
+          </div>
+          <div>
+            <label class="block text-gray-400 mb-1">Rank / Seviye Bilgisi</label>
+            <input type="text" id="formListingRank" placeholder="Immortal / Level 85" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-400 mb-1">Ayrıntılı İlan Açıklaması</label>
+          <textarea id="formListingDesc" rows="4" required placeholder="Hesap özellikleri, skinler, bıçaklar, teslimat detayları..." class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue"></textarea>
+        </div>
+
+        <div class="space-y-2">
+          <label class="block text-gray-400">Fotoğraf Yükle (Galeri - Max 50MB/Dosya)</label>
+          <div class="border-2 border-dashed border-cyber-blue/30 rounded-2xl p-4 text-center cursor-pointer hover:border-cyber-blue transition-all bg-cyber-black/40" onclick="document.getElementById('imageFileInput').click()">
+            <i data-lucide="upload-cloud" class="w-8 h-8 text-cyber-blue mx-auto mb-1"></i>
+            <span class="text-gray-300 block font-semibold">Görsel Seçin veya Sürükleyin</span>
+            <input type="file" id="imageFileInput" accept="image/*" multiple class="hidden" onchange="handleImageUpload(event)">
+          </div>
+          <div id="uploadedThumbnailsPreview" class="flex flex-wrap gap-2 pt-2">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-gray-400 mb-1">Video YouTube URL veya MP4 Embed</label>
+          <input type="text" id="formListingVideo" placeholder="https://www.youtube.com/embed/..." class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800 focus:border-cyber-blue">
+        </div>
+
+        <div class="flex items-center gap-6 pt-2">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="formListingFeatured" class="rounded bg-cyber-black border-gray-800 text-cyber-blue">
+            <span class="text-white font-semibold">Ana Sayfada Öne Çıkar</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input type="checkbox" id="formListingActive" checked class="rounded bg-cyber-black border-gray-800 text-cyber-blue">
+            <span class="text-white font-semibold">Yayında</span>
+          </label>
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-800">
+          <button type="button" onclick="closeListingFormModal()" class="px-4 py-2 rounded-xl bg-gray-800 text-gray-300">İptal</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-cyber-blue text-black font-orbitron font-bold">KAYDET</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- CAMPAIGN FORM MODAL -->
+  <div id="campaignFormModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="relative w-full max-w-md glass-panel rounded-3xl border border-cyber-purple/40 p-6 space-y-4 bg-cyber-black">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <h3 class="font-orbitron font-bold text-lg text-cyber-purple">Yeni Kampanya Ekle</h3>
+        <button onclick="closeCampaignFormModal()" class="text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveCampaign(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-gray-400 mb-1">Kampanya Adı</label>
+          <input type="text" id="formCampaignTitle" required placeholder="Büyük Bahar İndirimi" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800">
+        </div>
+
+        <div>
+          <label class="block text-gray-400 mb-1">Hedef Oyun</label>
+          <select id="formCampaignGame" required class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800">
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-gray-400 mb-1">İndirim Oranı (%)</label>
+          <input type="number" id="formCampaignDiscount" min="1" max="90" required placeholder="25" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800">
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-800">
+          <button type="button" onclick="closeCampaignFormModal()" class="px-4 py-2 rounded-xl bg-gray-800 text-gray-300">İptal</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-cyber-purple text-white font-orbitron font-bold">KAMPANYA BAŞLAT</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- GAME FORM MODAL -->
+  <div id="gameFormModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="relative w-full max-w-md glass-panel rounded-3xl border border-cyber-blue/40 p-6 space-y-4 bg-cyber-black">
+      <div class="flex items-center justify-between border-b border-gray-800 pb-3">
+        <h3 class="font-orbitron font-bold text-lg text-cyber-blue">Yeni Oyun Kategorisi</h3>
+        <button onclick="closeGameFormModal()" class="text-gray-400 hover:text-white p-1">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <form onsubmit="handleSaveGame(event)" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-gray-400 mb-1">Oyun Adı</label>
+          <input type="text" id="formGameName" required placeholder="Ea Sports FC 24" class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800">
+        </div>
+        <div>
+          <label class="block text-gray-400 mb-1">Görsel URL</label>
+          <input type="text" id="formGameImage" required placeholder="https://..." class="w-full bg-cyber-black text-white p-2.5 rounded-xl border border-gray-800">
+        </div>
+
+        <div class="pt-4 flex items-center justify-end gap-3 border-t border-gray-800">
+          <button type="button" onclick="closeGameFormModal()" class="px-4 py-2 rounded-xl bg-gray-800 text-gray-300">İptal</button>
+          <button type="submit" class="px-6 py-2 rounded-xl bg-cyber-blue text-black font-orbitron font-bold">EKLE</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastNotification" class="fixed bottom-6 left-6 z-50 hidden p-4 rounded-2xl glass-panel border border-cyber-blue/50 text-white text-xs font-semibold flex items-center gap-3 transition-all transform translate-y-4">
+    <i data-lucide="info" class="w-5 h-5 text-cyber-blue"></i>
+    <span id="toastMessage">Bildirim mesajı</span>
+  </div>
+
+  <!-- SCRIPT ENGINE -->
+  <script>
+    const DEFAULT_GAMES = [
+      { id: 'pubg', name: 'PUBG Mobile', image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400' },
+      { id: 'valorant', name: 'Valorant', image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=400' },
+      { id: 'wolfteam', name: 'Wolfteam', image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400' },
+      { id: 'gtav', name: 'GTA V / GTA Online', image: 'https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=400' },
+      { id: 'lol', name: 'League of Legends', image: 'https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=400' },
+      { id: 'cs2', name: 'Counter-Strike 2', image: 'https://images.unsplash.com/photo-1612287230202-1ff1d85d1bdf?w=400' },
+      { id: 'fortnite', name: 'Fortnite', image: 'https://images.unsplash.com/photo-1589241062272-c0a000072dfa?w=400' },
+      { id: 'mlbb', name: 'Mobile Legends', image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400' },
+      { id: 'brawl', name: 'Brawl Stars', image: 'https://images.unsplash.com/photo-1566577739112-5180d4bf9390?w=400' },
+      { id: 'coc', name: 'Clash of Clans', image: 'https://images.unsplash.com/photo-1579373903781-fd5c0c30c4cd?w=400' },
+      { id: 'cr', name: 'Clash Royale', image: 'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=400' },
+      { id: 'roblox', name: 'Roblox', image: 'https://images.unsplash.com/photo-1600861194942-f883de0dfe96?w=400' },
+      { id: 'metin2', name: 'Metin2', image: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400' },
+      { id: 'zula', name: 'Zula', image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=400' },
+      { id: 'freefire', name: 'Free Fire', image: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?w=400' },
+      { id: 'codm', name: 'Call of Duty: Mobile', image: 'https://images.unsplash.com/photo-1595429035839-c99c298ffdde?w=400' },
+      { id: 'eafc', name: 'EA SPORTS FC', image: 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?w=400' },
+      { id: 'minecraft', name: 'Minecraft', image: 'https://images.unsplash.com/photo-1627856013091-fed6e4e30025?w=400' },
+      { id: 'apex', name: 'Apex Legends', image: 'https://images.unsplash.com/photo-1542751110-97427bbecf20?w=400' },
+      { id: 'r6', name: 'Rainbow Six Siege', image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=400' }
+    ];
+
+    const DEFAULT_LISTINGS = [
+      {
+        id: 'ZIR-1001',
+        gameId: 'valorant',
+        title: 'IMMORTAL 3 — YAĞMACI & ASİL SETLİ PREMİUM HESAP',
+        price: 1850,
+        oldPrice: 2400,
+        rank: 'Immortal 3',
+        level: 'Lvl 142',
+        desc: 'Hesap içerisinde Yağmacı Vandal, Asil Phantom, Ejder Ejderha Bıçak, Champions Skin seti mevcuttur. İlk e-postası verilecektir.',
+        images: ['https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800', 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800'],
+        video: '',
+        featured: true,
+        active: true,
+        createdAt: Date.now()
+      },
+      {
+        id: 'ZIR-1002',
+        gameId: 'pubg',
+        title: 'PUBG MOBILE 72 SEVİYE M24 BUZ DİYARI KOMBİNLİ HESAP',
+        price: 1250,
+        oldPrice: 1500,
+        rank: 'As Ustası',
+        level: 'Lvl 72',
+        desc: 'Buz Diyarı M416 Max Seviye, Maskara Seti, Firavun zırh mevcuttur. Bağlantıları temizdir.',
+        images: ['https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=800'],
+        video: '',
+        featured: true,
+        active: true,
+        createdAt: Date.now() - 100000
+      },
+      {
+        id: 'ZIR-1003',
+        gameId: 'gtav',
+        title: 'GTA V ONLINE 500 MİLYON $ + 250 LEVEL FULL GARAJ HESAP',
+        price: 450,
+        oldPrice: 600,
+        rank: '250 Level',
+        level: 'Lvl 250',
+        desc: 'Rockstar hesabı ile birlikte teslim edilir. Tüm mülkler, iş yerleri ve modlu araçlar mevcuttur.',
+        images: ['https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?w=800'],
+        video: '',
+        featured: false,
+        active: true,
+        createdAt: Date.now() - 200000
+      },
+      {
+        id: 'ZIR-1004',
+        gameId: 'lol',
+        title: 'CHALLENGER ELO — 350 KOSTÜM FULL ŞAMPİYON HESAP',
+        price: 3200,
+        oldPrice: 4000,
+        rank: 'Challenger',
+        level: 'Lvl 310',
+        desc: 'Riot Games kalitesiyle. 12 İhtişamlı kostüm, PAX Sivir ve tüm şampiyonlar açıktır.',
+        images: ['https://images.unsplash.com/photo-1560253023-3ec5d502959f?w=800'],
+        video: '',
+        featured: true,
+        active: true,
+        createdAt: Date.now() - 300000
+      }
+    ];
+
+    const DEFAULT_CAMPAIGNS = [
+      { id: 'c1', title: 'VALORANT DEV BAHAR İNDİRİMİ', gameId: 'valorant', discountPercent: 20, active: true }
+    ];
+
+    let state = {
+      games: JSON.parse(localStorage.getItem('zirvex_games')) || DEFAULT_GAMES,
+      listings: JSON.parse(localStorage.getItem('zirvex_listings')) || DEFAULT_LISTINGS,
+      campaigns: JSON.parse(localStorage.getItem('zirvex_campaigns')) || DEFAULT_CAMPAIGNS,
+      selectedGameFilter: 'ALL',
+      searchQuery: '',
+      sortOption: 'NEWEST',
+      discountOnly: false,
+      adminLoggedIn: sessionStorage.getItem('zirvex_admin_authed') === 'true',
+      formUploadImages: []
+    };
+
+    function saveState() {
+      localStorage.setItem('zirvex_games', JSON.stringify(state.games));
+      localStorage.setItem('zirvex_listings', JSON.stringify(state.listings));
+      localStorage.setItem('zirvex_campaigns', JSON.stringify(state.campaigns));
+    }
+
+    // HIDDEN URL DETECTOR FOR ADMINISTRATIVE ACCESS
+    function checkUrlForAdminRoute() {
+      const url = window.location.href;
+      const path = window.location.pathname;
+      const hash = window.location.hash;
+
+      if (
+        path.endsWith('/%1AdminSistemi') || 
+        hash === '#%1AdminSistemi' || 
+        url.includes('%1AdminSistemi') ||
+        decodeURIComponent(url).includes('/%1AdminSistemi')
+      ) {
+        navigateToAdminRoute();
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      checkUrlForAdminRoute();
+      renderApp();
+      lucide.createIcons();
+    });
+
+    window.addEventListener('hashchange', checkUrlForAdminRoute);
+    window.addEventListener('popstate', checkUrlForAdminRoute);
+    setInterval(checkUrlForAdminRoute, 1000);
+
+    function renderApp() {
+      renderMarqueeGames();
+      renderGameSelectOptions();
+      renderListings();
+      if (state.adminLoggedIn) {
+        renderAdminTables();
+      }
+    }
+
+    function renderMarqueeGames() {
+      const marquee = document.getElementById('gamesMarquee');
+      if (!marquee) return;
+
+      const list = [...state.games, ...state.games];
+      marquee.innerHTML = list.map(game => `
+        <div onclick="filterByGame('${game.id}')" 
+             class="cursor-pointer group flex items-center gap-3 px-4 py-2.5 rounded-xl glass-panel border border-cyber-blue/20 hover:border-cyber-blue hover:bg-cyber-blue/10 transition-all">
+          <img src="${game.image}" alt="${game.name}" class="w-8 h-8 rounded-lg object-cover group-hover:scale-110 transition-transform">
+          <span class="font-rajdhani font-bold text-sm text-white group-hover:text-cyber-blue transition-colors">${game.name}</span>
+        </div>
+      `).join('');
+    }
+
+    function renderGameSelectOptions() {
+      const selects = [
+        document.getElementById('filterGameSelect'),
+        document.getElementById('formListingGame'),
+        document.getElementById('formCampaignGame')
+      ];
+
+      selects.forEach(select => {
+        if (!select) return;
+        const isFilterSelect = select.id === 'filterGameSelect';
+        let optionsHtml = isFilterSelect ? '<option value="ALL">Tüm Oyunlar</option>' : '';
+        optionsHtml += state.games.map(g => `<option value="${g.id}">${g.name}</option>`).join('');
+        select.innerHTML = optionsHtml;
+      });
+    }
+
+    function renderListings() {
+      const grid = document.getElementById('listingsGrid');
+      const emptyState = document.getElementById('emptyListingsState');
+      if (!grid) return;
+
+      let filtered = state.listings.filter(item => item.active);
+
+      if (state.selectedGameFilter !== 'ALL') {
+        filtered = filtered.filter(item => item.gameId === state.selectedGameFilter);
+      }
+
+      if (state.searchQuery.trim() !== '') {
+        const q = state.searchQuery.toLowerCase();
+        filtered = filtered.filter(item => 
+          item.title.toLowerCase().includes(q) || 
+          item.desc.toLowerCase().includes(q) ||
+          item.rank.toLowerCase().includes(q)
+        );
+      }
+
+      if (state.discountOnly) {
+        filtered = filtered.filter(item => calculateFinalPrice(item).discountPercent > 0);
+      }
+
+      filtered.sort((a, b) => {
+        const priceA = calculateFinalPrice(a).finalPrice;
+        const priceB = calculateFinalPrice(b).finalPrice;
+        if (state.sortOption === 'PRICE_LOW') return priceA - priceB;
+        if (state.sortOption === 'PRICE_HIGH') return priceB - priceA;
+        if (state.sortOption === 'DISCOUNT') return calculateFinalPrice(b).discountPercent - calculateFinalPrice(a).discountPercent;
+        return b.createdAt - a.createdAt;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        emptyState.classList.remove('hidden');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      grid.innerHTML = filtered.map(item => {
+        const game = state.games.find(g => g.id === item.gameId) || { name: 'Oyun' };
+        const priceInfo = calculateFinalPrice(item);
+
+        return `
+          <div class="glass-panel glass-panel-hover rounded-2xl overflow-hidden border border-cyber-blue/15 flex flex-col justify-between group transition-all duration-300">
+            <div>
+              <div class="relative aspect-video overflow-hidden bg-black">
+                <img src="${item.images[0] || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600'}" 
+                     alt="${item.title}" 
+                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                
+                <div class="absolute top-3 left-3 flex flex-wrap gap-1.5">
+                  <span class="px-2 py-0.5 rounded-md bg-black/80 backdrop-blur-md text-[10px] font-orbitron font-bold text-cyber-blue border border-cyber-blue/30">
+                    ${game.name}
+                  </span>
+                  ${item.featured ? `<span class="px-2 py-0.5 rounded-md bg-cyber-purple/90 text-[10px] font-orbitron font-bold text-white shadow-neon-purple">ÖNE ÇIKAN</span>` : ''}
+                </div>
+
+                ${priceInfo.discountPercent > 0 ? `
+                  <div class="absolute top-3 right-3 px-2 py-1 rounded-lg bg-pink-600 text-white font-orbitron font-black text-xs shadow-lg animate-pulse">
+                    %${priceInfo.discountPercent} İNDİRİM
+                  </div>
+                ` : ''}
+              </div>
+
+              <div class="p-4 space-y-3">
+                <h3 class="font-orbitron font-bold text-sm text-white line-clamp-2 group-hover:text-cyber-blue transition-colors">
+                  ${item.title}
+                </h3>
+
+                <div class="flex flex-wrap items-center gap-2 text-[11px] font-rajdhani">
+                  <span class="px-2 py-0.5 rounded bg-cyber-black text-gray-300 border border-gray-800">${item.rank || 'Dereceli'}</span>
+                  <span class="px-2 py-0.5 rounded bg-cyber-black text-gray-300 border border-gray-800">${item.level || 'Lvl 1'}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-4 pt-0 border-t border-gray-800/50 mt-2 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-gray-400 block font-rajdhani uppercase">Satış Fiyatı</span>
+                <div class="flex items-baseline gap-1.5">
+                  <span class="font-orbitron font-bold text-lg text-cyber-blue">${priceInfo.finalPrice} TL</span>
+                  ${priceInfo.oldPrice ? `<span class="text-xs text-gray-500 line-through font-mono">${priceInfo.oldPrice} TL</span>` : ''}
+                </div>
+              </div>
+
+              <button onclick="openListingDetail('${item.id}')" 
+                      class="px-3.5 py-2 rounded-xl bg-cyber-blue/10 text-cyber-blue border border-cyber-blue/30 hover:bg-cyber-blue hover:text-black font-orbitron font-bold text-xs transition-all flex items-center gap-1">
+                İNCELE <i data-lucide="chevron-right" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+    }
+
+    function calculateFinalPrice(item) {
+      let finalPrice = item.price;
+      let oldPrice = item.oldPrice || null;
+      let discountPercent = 0;
+
+      const campaign = state.campaigns.find(c => c.active && (c.gameId === item.gameId || c.gameId === 'ALL'));
+      if (campaign) {
+        discountPercent = campaign.discountPercent;
+        oldPrice = item.price;
+        finalPrice = Math.round(item.price * (1 - discountPercent / 100));
+      } else if (item.oldPrice && item.oldPrice > item.price) {
+        discountPercent = Math.round(((item.oldPrice - item.price) / item.oldPrice) * 100);
+      }
+
+      return { finalPrice, oldPrice, discountPercent };
+    }
+
+    function filterByGame(gameId) {
+      state.selectedGameFilter = gameId;
+      const tag = document.getElementById('activeCategoryTag');
+      const select = document.getElementById('filterGameSelect');
+      select.value = gameId;
+
+      if (gameId === 'ALL') {
+        tag.innerText = 'Tüm Oyunlar Gösteriliyor';
+      } else {
+        const game = state.games.find(g => g.id === gameId);
+        tag.innerText = `Filtrelenen Oyun: ${game ? game.name : gameId}`;
+      }
+      renderListings();
+      document.getElementById('listingsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function handleSearch(val) {
+      state.searchQuery = val;
+      renderListings();
+    }
+
+    function applyFilters() {
+      state.selectedGameFilter = document.getElementById('filterGameSelect').value;
+      state.sortOption = document.getElementById('filterSortSelect').value;
+      renderListings();
+    }
+
+    function toggleDiscountOnlyFilter() {
+      state.discountOnly = !state.discountOnly;
+      const btn = document.getElementById('discountFilterBtn');
+      if (state.discountOnly) {
+        btn.classList.add('bg-pink-600', 'text-white');
+      } else {
+        btn.classList.remove('bg-pink-600', 'text-white');
+      }
+      renderListings();
+    }
+
+    function filterDiscountedOnly() {
+      state.discountOnly = true;
+      renderListings();
+      document.getElementById('listingsSection').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function resetFilters() {
+      state.selectedGameFilter = 'ALL';
+      state.searchQuery = '';
+      state.sortOption = 'NEWEST';
+      state.discountOnly = false;
+      document.getElementById('filterGameSelect').value = 'ALL';
+      document.getElementById('filterSortSelect').value = 'NEWEST';
+      renderListings();
+    }
+
+    function openListingDetail(id) {
+      const item = state.listings.find(l => l.id === id);
+      if (!item) return;
+
+      const game = state.games.find(g => g.id === item.gameId) || { name: 'Oyun' };
+      const priceInfo = calculateFinalPrice(item);
+
+      document.getElementById('detailGameBadge').innerText = game.name;
+      document.getElementById('detailListingNo').innerText = `İlan No: #${item.id}`;
+      document.getElementById('detailTitle').innerText = item.title;
+      document.getElementById('detailPrice').innerText = `${priceInfo.finalPrice} TL`;
+      
+      const oldPriceEl = document.getElementById('detailOldPrice');
+      if (priceInfo.oldPrice) {
+        oldPriceEl.innerText = `${priceInfo.oldPrice} TL`;
+        oldPriceEl.classList.remove('hidden');
+      } else {
+        oldPriceEl.classList.add('hidden');
+      }
+
+      document.getElementById('detailLevel').innerText = item.level || 'Lvl 100+';
+      document.getElementById('detailRank').innerText = item.rank || 'Dereceli';
+      document.getElementById('detailDescription').innerText = item.desc;
+
+      const campaignBanner = document.getElementById('detailCampaignBanner');
+      if (priceInfo.discountPercent > 0) {
+        document.getElementById('detailDiscountRate').innerText = priceInfo.discountPercent;
+        campaignBanner.classList.remove('hidden');
+      } else {
+        campaignBanner.classList.add('hidden');
+      }
+
+      const mainImg = document.getElementById('detailMainImage');
+      const vidContainer = document.getElementById('detailVideoContainer');
+      const vidIframe = document.getElementById('detailIframeVideo');
+      
+      mainImg.src = item.images[0] || 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800';
+      mainImg.classList.remove('hidden');
+      vidContainer.classList.add('hidden');
+
+      const thumbsContainer = document.getElementById('detailThumbnails');
+      thumbsContainer.innerHTML = item.images.map((imgUrl, idx) => `
+        <img src="${imgUrl}" onclick="setDetailMainMedia('${imgUrl}', false)" 
+             class="w-16 h-12 rounded-lg object-cover cursor-pointer border border-cyber-blue/30 hover:border-cyber-blue transition-all">
+      `).join('');
+
+      if (item.video) {
+        thumbsContainer.innerHTML += `
+          <div onclick="setDetailMainMedia('${item.video}', true)" 
+               class="w-16 h-12 rounded-lg bg-cyber-purple/30 border border-cyber-purple flex items-center justify-center cursor-pointer text-cyber-purple font-bold text-xs">
+            VIDEO
+          </div>
+        `;
+      }
+
+      const encodedMsg = encodeURIComponent(
+        `Merhaba ZirveX, ${item.title} isimli ${game.name} hesabıyla ilgileniyorum. İlan numarası: ${item.id}. Fiyat ve teslimat hakkında bilgi almak istiyorum.`
+      );
+      document.getElementById('detailWhatsappBtn').href = `https://wa.me/905050619393?text=${encodedMsg}`;
+
+      document.getElementById('listingDetailModal').classList.remove('hidden');
+    }
+
+    function setDetailMainMedia(url, isVideo) {
+      const mainImg = document.getElementById('detailMainImage');
+      const vidContainer = document.getElementById('detailVideoContainer');
+      const vidIframe = document.getElementById('detailIframeVideo');
+
+      if (isVideo) {
+        mainImg.classList.add('hidden');
+        vidIframe.src = url;
+        vidContainer.classList.remove('hidden');
+      } else {
+        vidContainer.classList.add('hidden');
+        vidIframe.src = '';
+        mainImg.src = url;
+        mainImg.classList.remove('hidden');
+      }
+    }
+
+    function closeListingModal() {
+      document.getElementById('detailIframeVideo').src = '';
+      document.getElementById('listingDetailModal').classList.add('hidden');
+    }
+
+    function navigateToAdminRoute() {
+      if (state.adminLoggedIn) {
+        openAdminDashboardModal();
+      } else {
+        openAdminLoginModal();
+      }
+    }
+
+    function openAdminLoginModal() {
+      document.getElementById('adminLoginModal').classList.remove('hidden');
+    }
+
+    function closeAdminLoginModal() {
+      document.getElementById('adminLoginModal').classList.add('hidden');
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const pwd = document.getElementById('adminPasswordInput').value;
+      if (pwd === 'Ecrinim.236449Barış') {
+        state.adminLoggedIn = true;
+        sessionStorage.setItem('zirvex_admin_authed', 'true');
+        closeAdminLoginModal();
+        showToast('Yönetim Paneline Başarıyla Giriş Yapıldı!');
+        openAdminDashboardModal();
+      } else {
+        showToast('Hatalı Yönetici Şifresi!');
+      }
+    }
+
+    function logoutAdmin() {
+      state.adminLoggedIn = false;
+      sessionStorage.removeItem('zirvex_admin_authed');
+      document.getElementById('adminDashboardModal').classList.add('hidden');
+      showToast('Yönetici Oturumu Kapatıldı');
+    }
+
+    function openAdminDashboardModal() {
+      renderAdminTables();
+      document.getElementById('adminDashboardModal').classList.remove('hidden');
+    }
+
+    function switchAdminTab(tab) {
+      const tabs = ['listings', 'campaigns', 'games'];
+      tabs.forEach(t => {
+        const content = document.getElementById(`adminTab${capitalize(t)}`);
+        const btn = document.getElementById(`adminTab${capitalize(t)}Btn`);
+        if (t === tab) {
+          content.classList.remove('hidden');
+          btn.classList.add('bg-cyber-blue', 'text-black');
+          btn.classList.remove('bg-cyber-black', 'text-gray-300');
+        } else {
+          content.classList.add('hidden');
+          btn.classList.remove('bg-cyber-blue', 'text-black');
+          btn.classList.add('bg-cyber-black', 'text-gray-300');
+        }
+      });
+    }
+
+    function renderAdminTables() {
+      const listingsBody = document.getElementById('adminListingsTableBody');
+      if (listingsBody) {
+        listingsBody.innerHTML = state.listings.map(item => {
+          const game = state.games.find(g => g.id === item.gameId) || { name: 'Oyun' };
+          return `
+            <tr class="hover:bg-cyber-black/50">
+              <td class="p-3">
+                <img src="${item.images[0] || ''}" class="w-12 h-9 rounded object-cover border border-gray-800">
+              </td>
+              <td class="p-3">
+                <span class="font-bold text-white block">${item.title}</span>
+                <span class="text-[10px] text-cyber-blue font-mono">#${item.id} • ${game.name}</span>
+              </td>
+              <td class="p-3 font-mono font-bold text-cyber-blue">
+                ${item.price} TL
+              </td>
+              <td class="p-3">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${item.active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
+                  ${item.active ? 'Yayında' : 'Pasif'}
+                </span>
+              </td>
+              <td class="p-3 text-right space-x-2">
+                <button onclick="editListing('${item.id}')" class="p-1.5 rounded bg-cyber-blue/20 text-cyber-blue hover:bg-cyber-blue hover:text-black">
+                  <i data-lucide="edit" class="w-3.5 h-3.5"></i>
+                </button>
+                <button onclick="deleteListing('${item.id}')" class="p-1.5 rounded bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      const campaignsBody = document.getElementById('adminCampaignsTableBody');
+      if (campaignsBody) {
+        campaignsBody.innerHTML = state.campaigns.map(c => {
+          const game = state.games.find(g => g.id === c.gameId) || { name: 'Tüm Oyunlar' };
+          return `
+            <tr class="hover:bg-cyber-black/50">
+              <td class="p-3 font-bold text-white">${c.title}</td>
+              <td class="p-3 text-cyber-blue font-semibold">${game.name}</td>
+              <td class="p-3 font-mono font-bold text-pink-500">%${c.discountPercent} İndirim</td>
+              <td class="p-3">
+                <span class="px-2 py-0.5 rounded text-[10px] font-bold ${c.active ? 'bg-green-500/20 text-green-400' : 'bg-red-500/20 text-red-400'}">
+                  ${c.active ? 'Aktif' : 'Pasif'}
+                </span>
+              </td>
+              <td class="p-3 text-right">
+                <button onclick="deleteCampaign('${c.id}')" class="p-1.5 rounded bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white">
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+                </button>
+              </td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      const gamesGrid = document.getElementById('adminGamesGrid');
+      if (gamesGrid) {
+        gamesGrid.innerHTML = state.games.map(g => `
+          <div class="p-3 rounded-xl glass-panel border border-gray-800 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-2 overflow-hidden">
+              <img src="${g.image}" class="w-8 h-8 rounded object-cover">
+              <span class="font-bold text-xs text-white truncate">${g.name}</span>
+            </div>
+            <button onclick="deleteGame('${g.id}')" class="text-red-400 hover:text-white p-1">
+              <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </div>
+        `).join('');
+      }
+
+      lucide.createIcons();
+    }
+
+    function openListingFormModal() {
+      document.getElementById('listingFormTitle').innerText = 'Yeni İlan Ekle';
+      document.getElementById('formListingId').value = '';
+      document.getElementById('formListingTitle').value = '';
+      document.getElementById('formListingPrice').value = '';
+      document.getElementById('formListingOldPrice').value = '';
+      document.getElementById('formListingRank').value = '';
+      document.getElementById('formListingDesc').value = '';
+      document.getElementById('formListingVideo').value = '';
+      state.formUploadImages = [];
+      renderUploadedThumbnails();
+      document.getElementById('listingFormModal').classList.remove('hidden');
+    }
+
+    function editListing(id) {
+      const item = state.listings.find(l => l.id === id);
+      if (!item) return;
+
+      document.getElementById('listingFormTitle').innerText = 'İlan Düzenle';
+      document.getElementById('formListingId').value = item.id;
+      document.getElementById('formListingGame').value = item.gameId;
+      document.getElementById('formListingTitle').value = item.title;
+      document.getElementById('formListingPrice').value = item.price;
+      document.getElementById('formListingOldPrice').value = item.oldPrice || '';
+      document.getElementById('formListingRank').value = item.rank || '';
+      document.getElementById('formListingDesc').value = item.desc;
+      document.getElementById('formListingVideo').value = item.video || '';
+      document.getElementById('formListingFeatured').checked = !!item.featured;
+      document.getElementById('formListingActive').checked = !!item.active;
+      
+      state.formUploadImages = [...item.images];
+      renderUploadedThumbnails();
+      document.getElementById('listingFormModal').classList.remove('hidden');
+    }
+
+    function closeListingFormModal() {
+      document.getElementById('listingFormModal').classList.add('hidden');
+    }
+
+    function handleImageUpload(e) {
+      const files = Array.from(e.target.files);
+      files.forEach(file => {
+        if (file.size > 50 * 1024 * 1024) {
+          showToast(`Hata: ${file.name} boyutu 50MB sınırını aşıyor!`);
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          state.formUploadImages.push(evt.target.result);
+          renderUploadedThumbnails();
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function renderUploadedThumbnails() {
+      const container = document.getElementById('uploadedThumbnailsPreview');
+      if (!container) return;
+      container.innerHTML = state.formUploadImages.map((img, i) => `
+        <div class="relative w-14 h-14 rounded-lg overflow-hidden border border-cyber-blue">
+          <img src="${img}" class="w-full h-full object-cover">
+          <button type="button" onclick="removeFormImage(${i})" class="absolute top-0 right-0 bg-red-600 text-white text-[9px] w-4 h-4 flex items-center justify-center">x</button>
+        </div>
+      `).join('');
+    }
+
+    function removeFormImage(idx) {
+      state.formUploadImages.splice(idx, 1);
+      renderUploadedThumbnails();
+    }
+
+    function handleSaveListing(e) {
+      e.preventDefault();
+      const id = document.getElementById('formListingId').value || 'ZIR-' + Math.floor(1000 + Math.random() * 9000);
+      const gameId = document.getElementById('formListingGame').value;
+      const title = document.getElementById('formListingTitle').value;
+      const price = parseFloat(document.getElementById('formListingPrice').value);
+      const oldPrice = parseFloat(document.getElementById('formListingOldPrice').value) || null;
+      const rank = document.getElementById('formListingRank').value;
+      const desc = document.getElementById('formListingDesc').value;
+      const video = document.getElementById('formListingVideo').value;
+      const featured = document.getElementById('formListingFeatured').checked;
+      const active = document.getElementById('formListingActive').checked;
+
+      const images = state.formUploadImages.length > 0 ? state.formUploadImages : ['https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800'];
+
+      const existingIndex = state.listings.findIndex(l => l.id === id);
+      const newListing = {
+        id, gameId, title, price, oldPrice, rank, desc, images, video, featured, active,
+        createdAt: existingIndex > -1 ? state.listings[existingIndex].createdAt : Date.now()
+      };
+
+      if (existingIndex > -1) {
+        state.listings[existingIndex] = newListing;
+        showToast('İlan Başarıyla Güncellendi');
+      } else {
+        state.listings.unshift(newListing);
+        showToast('Yeni İlan Yayınlandı');
+      }
+
+      saveState();
+      renderApp();
+      closeListingFormModal();
+    }
+
+    function deleteListing(id) {
+      if (confirm('Bu ilanı silmek istediğinize emin misiniz?')) {
+        state.listings = state.listings.filter(l => l.id !== id);
+        saveState();
+        renderApp();
+        showToast('İlan Silindi');
+      }
+    }
+
+    function openCampaignFormModal() {
+      document.getElementById('campaignFormModal').classList.remove('hidden');
+    }
+    function closeCampaignFormModal() {
+      document.getElementById('campaignFormModal').classList.add('hidden');
+    }
+    function handleSaveCampaign(e) {
+      e.preventDefault();
+      const title = document.getElementById('formCampaignTitle').value;
+      const gameId = document.getElementById('formCampaignGame').value;
+      const discountPercent = parseInt(document.getElementById('formCampaignDiscount').value);
+
+      state.campaigns.push({
+        id: 'c-' + Date.now(),
+        title, gameId, discountPercent, active: true
+      });
+
+      saveState();
+      renderApp();
+      closeCampaignFormModal();
+      showToast('İndirim Kampanyası Başlatıldı');
+    }
+
+    function deleteCampaign(id) {
+      state.campaigns = state.campaigns.filter(c => c.id !== id);
+      saveState();
+      renderApp();
+      showToast('Kampanya Silindi');
+    }
+
+    function openGameFormModal() {
+      document.getElementById('gameFormModal').classList.remove('hidden');
+    }
+    function closeGameFormModal() {
+      document.getElementById('gameFormModal').classList.add('hidden');
+    }
+    function handleSaveGame(e) {
+      e.preventDefault();
+      const name = document.getElementById('formGameName').value;
+      const image = document.getElementById('formGameImage').value;
+      const id = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+      state.games.push({ id, name, image });
+      saveState();
+      renderApp();
+      closeGameFormModal();
+      showToast('Yeni Oyun Kategorisi Eklendi');
+    }
+
+    function deleteGame(id) {
+      if (confirm('Kategoriyi silmek istiyor musunuz?')) {
+        state.games = state.games.filter(g => g.id !== id);
+        saveState();
+        renderApp();
+        showToast('Kategori Silindi');
+      }
+    }
+
+    function toggleMenu() {
+      const drawer = document.getElementById('drawerMenu');
+      const overlay = document.getElementById('drawerOverlay');
+      const isOpen = !drawer.classList.contains('translate-x-full');
+
+      if (isOpen) {
+        drawer.classList.add('translate-x-full');
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+      } else {
+        drawer.classList.remove('translate-x-full');
+        overlay.classList.remove('opacity-0', 'pointer-events-none');
+      }
+    }
+
+    function openLegalModal(type) {
+      const modal = document.getElementById('legalModal');
+      const title = document.getElementById('legalModalTitle');
+      const content = document.getElementById('legalModalContent');
+
+      title.innerText = type;
+
+      if (type === 'Hakkımızda') {
+        content.innerHTML = `
+          <p><strong>ZIRVEX ALIM SATIM</strong>, Türkiye merkezli olarak 2026 yılından bu yana e-spor oyuncularına güvenli, şeffaf ve anında oyun hesabı alım satım aracılığı sunmaktadır.</p>
+          <p>PUBG Mobile, Valorant, GTA V, LoL ve daha birçok popüler çevrimiçi oyunda binlerce başarılı teslimat gerçekleştirdik.</p>
+        `;
+      } else if (type === 'İletişim') {
+        content.innerHTML = `
+          <p><strong>WhatsApp Sipariş & Destek Hatımız:</strong> +90 505 061 93 93</p>
+          <p><strong>Instagram Hesabımız:</strong> @zirvexalimsatim</p>
+          <p>Haftanın 7 günü 24 saat boyunca canlı WhatsApp temsilcilerimiz üzerinden siparişlerinizi verebilir veya hesaplarınızı nakite çevirebilirsiniz.</p>
+        `;
+      } else if (type === 'SSS') {
+        content.innerHTML = `
+          <p><strong>Q: Hesabı nasıl teslim alacağım?</strong><br>A: Beğendiğiniz ilandaki 'WhatsApp ile Sipariş Et' butonuna tıklayarak müşteri temsilcimizle iletişime geçin. Ödeme onayının ardından hesap bilgileri ortalama 5 dakika içinde teslim edilir.</p>
+          <p><strong>Q: Hesaplar garantili mi?</strong><br>A: Evet, ZIRVEX bünyesinde satılan tüm hesaplar geri alma ve ilk e-posta teslim garantisiyle korunur.</p>
+        `;
+      } else {
+        content.innerHTML = `
+          <p>ZIRVEX ALIM SATIM olarak kişisel verilerinizin güvenliğine önem veriyoruz. İletişim formları ve WhatsApp üzerinden sağlanan müşteri bilgileri 6698 sayılı KVKK mevzuatına uygun şekilde işlenmektedir.</p>
+        `;
+      }
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeLegalModal() {
+      document.getElementById('legalModal').classList.add('hidden');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastNotification');
+      const toastMsg = document.getElementById('toastMessage');
+      toastMsg.innerText = msg;
+      toast.classList.remove('hidden', 'translate-y-4');
+      setTimeout(() => {
+        toast.classList.add('hidden', 'translate-y-4');
+      }, 3000);
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+  </script>
+</body>
+</html>
